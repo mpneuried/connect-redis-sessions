@@ -1,0 +1,12 @@
+*.profile
+*.lock
+*.log
+*.conflict
+*.DS_Store
+
+.project
+.settings
+.idea
+
+/node_modules
+*.sublime*

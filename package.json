@@ -1,0 +1,35 @@
+{
+	"author": "mp, <mp@tcs.de> (www.tcs.de)",
+	"name": "connect-redis-sessions",
+	"description": "Session store using redis-sessions for Connect",
+	"version": "0.0.1",
+	"homepage": "https://github.com/mpneuried/connect-redis-sessions",
+	"private": false,
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/mpneuried/connect-redis-sessions.git"
+	},
+	"engines": {
+		"node": "> 0.8.20"
+	},
+	"scripts": {
+		"test": "node test.js"
+	},
+
+	"dependencies": {
+		"redis-sessions": "*",
+		"pause": "0.0.1",
+		"uid2": "0.0.2",
+		"cookie-signature": "1.0.1",
+		"buffer-crc32": "0.2.1"
+	},
+	"devDependencies": {
+		"connect": "*",
+		"express": "*",
+
+		"grunt": "0.4.x",
+		"grunt-regarde": "*",
+		"grunt-contrib-coffee": "*",
+		"grunt-include-replace": "*"
+	}
+}
