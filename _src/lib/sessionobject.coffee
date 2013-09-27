@@ -68,13 +68,14 @@ module.exports = class Session
 			
 		return @
 
-	regenerate: ( cb )=>
-		if not @id
-			@handler._error( "no-token", cb )
-			return @
+	# TODO: check the mechanic behind the standard node session.regenerate()
+	# regenerate: ( cb )=>
+	# 	if not @id
+	# 		@handler._error( "no-token", cb )
+	# 		return @
 
-		@handler.regenerate( @req, fn )
-		return @
+	# 	@handler.regenerate( @req, fn )
+	# 	return @
 
 	hash: ()=>
 		return crc32.signed( JSON.stringify( @attributes() ) )
@@ -96,9 +97,8 @@ module.exports = class Session
 			@handler._error( "no-token", cb )
 			return @
 		[ args..., cb ] = arguments
-		[ dt ] = args
 
-		@handler.getAppActivity( @req, dt, cb )
+		@handler.getAppActivity( @req, args[ 0 ], cb )
 		return
 
 	soapp: =>
@@ -106,9 +106,8 @@ module.exports = class Session
 			@handler._error( "no-token", cb )
 			return @
 		[ args..., cb ] = arguments
-		[ dt ] = args
 
-		@handler.getAppSessions( @req, dt, cb )
+		@handler.getAppSessions( @req, args[ 0 ], cb )
 		return
 
 	soid: ( cb )=>
