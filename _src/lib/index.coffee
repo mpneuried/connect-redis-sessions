@@ -54,10 +54,16 @@ module.exports = ( connect, options )->
 				res.end = end
 				return res.end( data, encoding ) if not req.sessionID
 				#req.session.resetMaxAge()
-				req.session.save ( err )=>
-					console.error( err.stack ) if err
+				if req._originalHash isnt req.session.hash()
+					req.session.save ( err )=>
+						console.error( err ) if err
+						res.end( data, encoding )
+						return
+				else
 					res.end( data, encoding )
 					return
+
+
 				return
 
 			if not appname?.length
@@ -82,6 +88,12 @@ module.exports = ( connect, options )->
 						pause.resume()
 					if err
 						next( err )
+						return
+
+					if not data?
+						req.sessionID = null
+						req.session = new SessionObject( sessionHandler, req )
+						next()
 						return
 
 					console.log "SESSION found", data if sessionHandler.debug

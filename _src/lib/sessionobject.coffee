@@ -25,7 +25,7 @@ module.exports = class Session
 	attributes: ( withCookie = true )=>
 		_ret = {}
 		for _k, _v of @
-			_ret[ _k ] = _v if _k isnt "_meta" and typeof _v in [ "string", "number", "boolean" ]
+			_ret[ _k ] = _v if _k isnt "_meta" and ( _v is null or typeof _v in [ "string", "number", "boolean" ] )
 		return _ret
 
 	#touch: =>@resetMaxAge()

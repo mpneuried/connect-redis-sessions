@@ -18,8 +18,6 @@
 
 	"dependencies": {
 		"redis-sessions": "*",
-		"pause": "0.0.1",
-		"uid2": "0.0.2",
 		"cookie-signature": "1.0.1",
 		"buffer-crc32": "0.2.1"
 	},

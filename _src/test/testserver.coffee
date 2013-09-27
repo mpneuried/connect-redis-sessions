@@ -21,75 +21,76 @@ app
 	#.use(connect.session( secret: 'mysecret', cookie: { maxAge: 1000 * 60 },  store: new ConnectRedisSessions( app: "test") ))
 
 app.use ( req, res )->
+	if req.query.noop?
+		res.end( "EMPTY" )
+		return
 
-	#console.log req.session
 	if req.query.upgrade?
 		req.session.upgrade req.query.upgrade, ( err )=>
 			if err
 				res.end( "ERROR: ", err )
 				return
-			console.log req.session
-			res.end( "LOGGED IN - USER: #{ req.session._meta.id}" )
+			#console.log "SESSION", req.session
+			res.end( "LOGGED IN - USER: #{ req.session?._meta?.id}" )
 			return
-	else if req.query.destroy?
+	else if req.session?.id? and req.query.destroy?
 		req.session.destroy ( err, ok )=>
-			console.log "AFTER DEST", err, ok
 			if err
 				res.end( "ERROR: #{err}" )
 				return
 			res.end( "killed + #{ok}" )
 			return
-	else if req.query.save?
+	else if req.session?.id? and  req.query.save?
 
 		for _k, _v of req.query when _k isnt "save"
-			req.session[ _k ] = _v
-		res.end( "ERROR: #{ JSON.stringify( req.session.attributes() )}" )
+			req.session[ _k ] = if _v?.length then _v else null
+		res.end(  "USER: #{ req.session?._meta?.id}\n" + "SAVED: #{ JSON.stringify( req.session.attributes() )}" )
 		return
 
-	else if req.query.soapp?
+	else if req.session?.id? and  req.query.soapp?
 
 		req.session.soapp ( err, data )=>
 			if err
 				res.end( "ERROR: #{err}" )
 				return
-			res.end( JSON.stringify( data ) )
+			res.end( "USER: #{ req.session?._meta?.id}\n" + JSON.stringify( data ) )
 			return
 		return
 
-	else if req.query.soid?
+	else if req.session?.id? and  req.query.soid?
 
 		req.session.soid ( err, data )=>
 			if err
 				res.end( "ERROR: #{err}" )
 				return
-			res.end( JSON.stringify( data ) )
+			res.end( "USER: #{ req.session?._meta?.id}\n" + JSON.stringify( data ) )
 			return
 		return
 
-	else if req.query.activity?
+	else if req.session?.id? and  req.query.activity?
 
 		req.session.activity ( err, data )=>
 			if err
 				res.end( "ERROR: #{err}" )
 				return
-			res.end( JSON.stringify( data ) )
+			res.end( "USER: #{ req.session?._meta?.id}\n" + JSON.stringify( data ) )
 			return
 		return
 
-	else if req.query.destroyall?
+	else if req.session?.id? and req.query.destroyall?
 
 		req.session.destroyall ( err, data )=>
 			if err
 				res.end( "ERROR: #{err}" )
 				return
-			res.end( JSON.stringify( data ) )
+			res.end( "USER: #{ req.session?._meta?.id}\n" + JSON.stringify( data ) )
 			return
 		return
 
 	else
-		console.log "SESSION", req.session.id
 		if req.session.id
-			res.end( "USER: #{ req.session._meta.id}" )
+			#console.log "SESSION", req.session
+			res.end( "USER: #{ req.session?._meta?.id}" )
 		else
 			res.end( "UNKONWN" )
 

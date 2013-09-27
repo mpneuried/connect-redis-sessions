@@ -135,6 +135,7 @@ module.exports = class SessionHandler
 	get: ( req, cb )=>
 		@rds.get { app: req._appname, token: req.sessionID }, ( err, data )=>
 			return cb( err ) if err
+			console.log "GOT", data if @debug
 			if data? and Object.keys( data ).length isnt 0
 				cb( null, @_redisToSession( data )) if cb
 			else
@@ -144,7 +145,14 @@ module.exports = class SessionHandler
 		return
 
 	set: ( req, cb )=>
-		@rds.set { app: req._appname, token: req.sessionID, d: req.session.attributes() }, ( err, data )=>
+		_args = 
+			app: req._appname
+			token: req.sessionID
+
+		_attrs = req.session.attributes()
+		if Object.keys( _attrs ).length isnt 0
+			_args.d = req.session.attributes()
+		@rds.set _args, ( err, data )=>
 			return cb( err ) if err
 			if data? and Object.keys( data ).length isnt 0
 				cb( null, @_redisToSession( data )) if cb
