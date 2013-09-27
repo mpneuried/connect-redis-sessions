@@ -1,6 +1,5 @@
 RedisSessions = require( "redis-sessions" )
 SessionObject = require( "./sessionobject" )
-signature = require('cookie-signature')
 
 module.exports = class SessionHandler
 	constructor: ( options = {}, @connect )->
@@ -30,7 +29,6 @@ module.exports = class SessionHandler
 
 		@trustProxy = options.proxy
 		@cookie = options.cookie or {}
-		@secret = options.secret
 		@ttl = options.ttl
 
 		return
@@ -78,14 +76,13 @@ module.exports = class SessionHandler
 
 			proto = (req.headers['x-forwarded-proto'] or '').split(',')[0].toLowerCase().trim()
 			tls = req.connection.encrypted or ( @trustProxy and 'https' is proto)
-			isNew = req._unsignedCookie isnt req.sessionID
 
 			if cookie.secure and not tls
 				console.warn( "not secured" ) if @debug
 				return 
 
 			# long expires, handle expiry server-side
-			if not isNew and cookie.hasLongExpires
+			if cookie.hasLongExpires
 				console.log( "allready set cookie" ) if @debug
 				return
 
@@ -100,8 +97,7 @@ module.exports = class SessionHandler
 				console.log( "unmodified session" ) if @debug
 				return
 
-			_signed = "s:" + signature.sign( req.sessionID, @secret )
-			val = cookie.serialize( req._appname, _signed)
+			val = cookie.serialize( req._appname, req.sessionID)
 
 			req.res.setHeader('Set-Cookie', val)
 
@@ -112,8 +108,7 @@ module.exports = class SessionHandler
 			return if not req.session
 			cookie = new @connect.session.Cookie( @cookie )
 			cookie.expires = new Date(0)
-			_signed = "s:" + signature.sign( req.sessionID, @secret )
-			val = cookie.serialize( req._appname, _signed)
+			val = cookie.serialize( req._appname, req.sessionID )
 
 			req.res.setHeader('Set-Cookie', val)
 			return
@@ -204,6 +199,5 @@ module.exports = class SessionHandler
 
 	ERRORS: 
 		"no-token": "This is an invalid or outdated session"
-		"no-secret": "There is no secret define within the options"
 		"no-app-defined": "To initialize a ConnectRedisSessions object you have to define the option `app` as a string or function"
 		"cookies-disabled": "The cookieParser has not been initialized. Please add `connect.cookieParser()` to your connect/express configuration."

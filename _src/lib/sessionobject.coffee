@@ -5,6 +5,7 @@ module.exports = class Session
 		Object.defineProperty( @, "req", { value: req } )
 		Object.defineProperty( @, "handler", { value: handler } )
 		Object.defineProperty( @, "id", { value: req.sessionID } )
+		Object.defineProperty( @, "d", { get: @attributes } )
 
 		handler.utils.merge( @, data ) if 'object' is typeof data
 
@@ -22,7 +23,7 @@ module.exports = class Session
 			return
 		return @
 
-	attributes: ( withCookie = true )=>
+	attributes: =>
 		_ret = {}
 		for _k, _v of @
 			_ret[ _k ] = _v if _k isnt "_meta" and ( _v is null or typeof _v in [ "string", "number", "boolean" ] )
@@ -76,7 +77,7 @@ module.exports = class Session
 		return @
 
 	hash: ()=>
-		return crc32.signed( JSON.stringify( @attributes( false ) ) )
+		return crc32.signed( JSON.stringify( @attributes() ) )
 
 	destroyall: ( cb )=>
 		if not @id?

@@ -19,7 +19,6 @@
   };
 
   app.use(connect.logger("dev")).use(connect.query()).use(connect.cookieParser()).use(connect.bodyParser()).use(ConnectRedisSessions(connect, {
-    secret: 'mysecret',
     app: _getAppName,
     debug: true,
     cookie: {
@@ -41,6 +40,7 @@
           res.end("ERROR: ", err);
           return;
         }
+        console.log("SESSION", req.session);
         res.end("LOGGED IN - USER: " + ((_ref = req.session) != null ? (_ref1 = _ref._meta) != null ? _ref1.id : void 0 : void 0));
       });
     } else if ((((_ref = req.session) != null ? _ref.id : void 0) != null) && (req.query.destroy != null)) {
@@ -103,6 +103,7 @@
       return;
     } else {
       if (req.session.id) {
+        console.log("SESSION", req.session.d.r);
         res.end("USER: " + ((_ref9 = req.session) != null ? (_ref10 = _ref9._meta) != null ? _ref10.id : void 0 : void 0));
       } else {
         res.end("UNKONWN");

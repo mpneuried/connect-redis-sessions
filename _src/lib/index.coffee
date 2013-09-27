@@ -22,13 +22,6 @@ module.exports = ( connect, options )->
 		# pathname mismatch
 		return next() if req.originalUrl.indexOf( sessionHandler.cookie.path or "/" )
 
-		# backwards compatibility for signed cookies
-		# req.secret is passed from the cookie parser middleware
-		secret = @secret or req.secret
-
-		# ensure secret is available or bail
-		sessionHandler._error( "no-secret", res ) if not sessionHandler.secret
-		
 		sessionHandler.getApp req, ( err, appname )=>
 			if err
 				sessionHandler._error( err, res )
@@ -41,19 +34,16 @@ module.exports = ( connect, options )->
 			if not req.cookies?
 				sessionHandler._error( "cookies-disabled", res )
 				return
-			rawCookie = req.cookies[ appname ]
-			unsignedCookie = req.signedCookies[ appname ]
-			if not unsignedCookie and rawCookie
-				unsignedCookie = utils.parseSignedCookie( rawCookie, sessionHandler.secret )
 
-			req._unsignedCookie = unsignedCookie
-			req.sessionID = unsignedCookie;
+			if req.cookies[ appname ]?
+				req.sessionID = req.cookies[ appname ]
+			else
+				req.sessionID = null
 
 			end = res.end
 			res.end = ( data, encoding )=>
 				res.end = end
-				return res.end( data, encoding ) if not req.sessionID
-				#req.session.resetMaxAge()
+				return res.end( data, encoding ) if not req.sessionID or not req.session?
 				if req._originalHash isnt req.session.hash()
 					req.session.save ( err )=>
 						console.error( err ) if err
@@ -62,8 +52,6 @@ module.exports = ( connect, options )->
 				else
 					res.end( data, encoding )
 					return
-
-
 				return
 
 			if not appname?.length
@@ -86,8 +74,12 @@ module.exports = ( connect, options )->
 					next = ( err )->
 						_next( err )
 						pause.resume()
+
 					if err
-						next( err )
+						console.log "GET ERROR", err if sessionHandler.debug
+						req.sessionID = null
+						req.session = new SessionObject( sessionHandler, req )
+						next()
 						return
 
 					if not data?

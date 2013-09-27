@@ -16,7 +16,7 @@ app
 	.use(connect.query())
 	.use(connect.cookieParser())
 	.use(connect.bodyParser())
-	.use( ConnectRedisSessions( connect, { secret: 'mysecret', app: _getAppName, debug: true, cookie: { maxAge: 1000 * 60 * 60 * 24 } } ) )
+	.use( ConnectRedisSessions( connect, { app: _getAppName, debug: true, cookie: { maxAge: 1000 * 60 * 60 * 24 } } ) )
 	#.use(connect.session( secret: 'mysecret', cookie: { maxAge: 1000 * 60 } ))
 	#.use(connect.session( secret: 'mysecret', cookie: { maxAge: 1000 * 60 },  store: new ConnectRedisSessions( app: "test") ))
 
@@ -30,7 +30,7 @@ app.use ( req, res )->
 			if err
 				res.end( "ERROR: ", err )
 				return
-			#console.log "SESSION", req.session
+			console.log "SESSION", req.session
 			res.end( "LOGGED IN - USER: #{ req.session?._meta?.id}" )
 			return
 	else if req.session?.id? and req.query.destroy?
@@ -89,7 +89,7 @@ app.use ( req, res )->
 
 	else
 		if req.session.id
-			#console.log "SESSION", req.session
+			console.log "SESSION", req.session.d.r
 			res.end( "USER: #{ req.session?._meta?.id}" )
 		else
 			res.end( "UNKONWN" )
