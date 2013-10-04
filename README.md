@@ -183,7 +183,7 @@ Reload the session from redis sessions
 
 ## Examples
 
-# advanced init
+### advanced init
 
 ```js
 // get the modules
@@ -222,7 +222,7 @@ app.use( function( req, res ){
 });
 ```
 
-## upgrade a session with a user_id
+### upgrade a session with a user_id
 
 ```js
 // listen for requests
@@ -325,6 +325,12 @@ app.use( function( req, res ){
 	req.session.destroy()
 });
 ```
+
+
+## Release History
+|Version|Date|Description|
+|:--:|:--:|:--|
+|v0.1.0|2013-10-04|Initial commit|
 
 
 ## The MIT License (MIT)
