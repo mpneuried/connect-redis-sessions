@@ -7,8 +7,9 @@ module.exports = class Session
 		Object.defineProperty( @, "id", { value: req.sessionID } )
 		Object.defineProperty( @, "d", { get: @attributes } )
 
-		handler.utils.merge( @, data ) if 'object' is typeof data
-
+		if 'object' is typeof data
+			for _k, _v of data
+				@[ _k ] = _v
 		return
 
 	upgrade: ( id, cb )=>

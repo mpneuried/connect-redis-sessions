@@ -1,10 +1,10 @@
 SessionHandler = require( "./sessionhandler" )
 SessionObject = require( "./sessionobject" )
+pause = require( "pause" )
 
 module.exports = ( connect, options )->
 	Cookie = connect.session.Cookie
 	#Session = connect.session.Session
-	utils = connect.utils
 
 	sessionHandler = new SessionHandler( options, connect )
 
@@ -68,12 +68,12 @@ module.exports = ( connect, options )->
 				return
 			else
 
-				pause = utils.pause(req)
+				_pause = pause(req)
 				sessionHandler.get req, ( err, data )=>
 					_next = next
 					next = ( err )->
 						_next( err )
-						pause.resume()
+						_pause.resume()
 
 					if err
 						console.log "GET ERROR", err if sessionHandler.debug

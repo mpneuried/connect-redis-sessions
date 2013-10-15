@@ -8,16 +8,16 @@ With [redis sessions](https://github.com/smrchy/redis-sessions) you can handle m
 
 ```js
 // get the modules
-var connect = require( "connect" );
+var express = require( "express" );
 var ConnectRedisSessions = require( "connect-redis-sessions" );
-var app = connect();
+var app = express();
 
 
-// configute connect
+// configute express
 app
-	.use( connect.query() )
-	.use( connect.cookieParser() )
-	.use( ConnectRedisSessions( connect, { app: "myappname" } ) )
+	.use( express.query() )
+	.use( express.cookieParser() )
+	.use( ConnectRedisSessions( express, { app: "myappname" } ) )
 
 // listen for requests
 app.use( function( req, res ){
@@ -29,7 +29,7 @@ app.use( function( req, res ){
 		// kill the active session
 		req.session.destroy();
 	}
-	res.end( "Hello connect redis sessions" );
+	res.end( "Hello express redis sessions" );
 });
 ```
 
@@ -39,20 +39,20 @@ app.use( function( req, res ){
 
 ## Usage
 
-1. you have to get the connect middleware init method by	
+1. you have to get the express middleware init method by	
 `var ConnectRedisSessions = require( "connect-redis-sessions" );`
-2. init your connect or express server	
-`var app = require( "connect" )();`
-3. init the connect cookie parser	
-`app.use( connect.cookieParser() );`
-4. use connect redis sessions as middleware	
-`app.use( ConnectRedisSessions( connect, { app: "myappname" } ) );`
+2. init your express or express server	
+`var app = require( "express" )();`
+3. init the express cookie parser	
+`app.use( express.cookieParser() );`
+4. use express redis sessions as middleware	
+`app.use( ConnectRedisSessions( express, { app: "myappname" } ) );`
 
 ## Initialisation
 
-**`ConnectRedisSessions( connect, options )`**
+**`ConnectRedisSessions( express, options )`**
 
-To init the session handling just add the two arguments `connect` *( wich is the raw object out of `require( "connect" )` )* and an options object.
+To init the session handling just add the two arguments `express` *( wich is the raw object out of `require( "express" )` )* and an options object.
 
 ### Options
 
@@ -187,9 +187,9 @@ Reload the session from redis sessions
 
 ```js
 // get the modules
-var connect = require( "connect" );
+var express = require( "express" );
 var ConnectRedisSessions = require( "connect-redis-sessions" );
-var app = connect();
+var app = express();
 
 // get the appname by the first part of the url
 _getAppName = function(req, cb) {
@@ -203,12 +203,12 @@ _getAppName = function(req, cb) {
 	}
 };
 
-// configute connect
+// configute express
 _timeSecDay = 60 * 60 * 24
 app
-	.use( connect.query() )
-	.use( connect.cookieParser() )
-	.use( ConnectRedisSessions( connect, { app: "myappname", ttl: _timeSecDay, cookie: { maxAge: _timeSecDay * 1000 } } ) )
+	.use( express.query() )
+	.use( express.cookieParser() )
+	.use( ConnectRedisSessions( express, { app: "myappname", ttl: _timeSecDay, cookie: { maxAge: _timeSecDay * 1000 } } ) )
 
 // listen for requests
 app.use( function( req, res ){
@@ -330,6 +330,7 @@ app.use( function( req, res ){
 ## Release History
 |Version|Date|Description|
 |:--:|:--:|:--|
+|v0.1.1|2013-10-15|Fixed module to be compatible with express and changed readme examples from connect to express|
 |v0.1.0|2013-10-04|Initial commit|
 
 

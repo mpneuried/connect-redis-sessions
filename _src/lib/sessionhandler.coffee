@@ -48,7 +48,7 @@ module.exports = class SessionHandler
 		if cb?.constructor?.name is "ServerResponse"
 			cb.statusCode = 500
 			cb.end(_err.toString())
-			console.error( "annot get appname", _err, _err.stack )
+			console.error( "cannot get appname", _err, _err.stack )
 		else if cb? and typeof cb is "function"
 			cb( _err )
 		else
