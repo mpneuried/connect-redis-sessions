@@ -222,6 +222,19 @@ app.use( function( req, res ){
 });
 ```
 
+### check for a logged in user
+
+```js
+// listen for requests
+app.use( function( req, res ){
+	if( req.session.id == void( 0 ) ){
+		res.end( "user not logged in" );
+	} else {
+		res.end( "user " + req.session._meta.id + " is logged in" );
+	}
+});
+```
+
 ### upgrade a session with a user_id
 
 ```js
@@ -330,6 +343,7 @@ app.use( function( req, res ){
 ## Release History
 |Version|Date|Description|
 |:--:|:--:|:--|
+|v0.1.2|2013-10-15|Added example `check for a logged in user` to readme|
 |v0.1.1|2013-10-15|Fixed module to be compatible with express and changed readme examples from connect to express|
 |v0.1.0|2013-10-04|Initial commit|
 
