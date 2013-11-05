@@ -14,13 +14,13 @@ module.exports = class Session
 
 	upgrade: ( id, cb )=>
 		if @id?
-			cb()
+			cb() if cb?
 			return
 		@handler.create @req, id, ( err, token )=>
-			return cb( err ) if err
+			return cb( err ) if cb? and err
 			console.log "NEW TOKEN", token if @handler.debug
 			@handler.generate( @req, token, id )
-			cb()
+			cb() if cb?
 			return
 		return @
 
@@ -64,7 +64,7 @@ module.exports = class Session
 		@id = null
 		@handler.destroy @req, ( err, data )=>
 			@req.res.on "header", @handler._remCookie( @req )
-			cb( err, data )
+			cb( err, data ) if cb?
 			return  
 			
 		return @
@@ -89,7 +89,7 @@ module.exports = class Session
 		@id = null
 		@handler.killIdSessions @req, ( err, data )=>
 			@req.res.on "header", @handler._remCookie( @req )
-			cb( err, data )
+			cb( err, data ) if cb?
 			return
 		return @
 

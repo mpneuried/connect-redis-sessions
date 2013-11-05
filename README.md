@@ -343,10 +343,16 @@ app.use( function( req, res ){
 ## Release History
 |Version|Date|Description|
 |:--:|:--:|:--|
+|v0.1.3|2013-10-15|Fixed error on missing callback|
 |v0.1.2|2013-10-15|Added example `check for a logged in user` to readme|
 |v0.1.1|2013-10-15|Fixed module to be compatible with express and changed readme examples from connect to express|
 |v0.1.0|2013-10-04|Initial commit|
 
+## Related Projects
+|Name|Description|
+|:--|:--|
+|[**redis-sessions**](https://github.com/smrchy/redis-sessions)|The redis session module this middleware module is based on|
+|[**tcs_node_auth**](https://github.com/mpneuried/tcs_node_auth)|Authentication module to handle login and register with a integrated mail double-opt-in logic.|
 
 ## The MIT License (MIT)
 
