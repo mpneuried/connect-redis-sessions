@@ -147,6 +147,8 @@ module.exports = class SessionHandler
 		_attrs = req.session.attributes()
 		if Object.keys( _attrs ).length isnt 0
 			_args.d = req.session.attributes()
+		else
+			_args.d = {}
 		@rds.set _args, ( err, data )=>
 			return cb( err ) if err
 			if data? and Object.keys( data ).length isnt 0

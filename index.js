@@ -1,5 +1,5 @@
 (function() {
-  exports.version = '0.1.3';
+  exports.version = '0.1.4';
 
   module.exports = require("./lib/");
 

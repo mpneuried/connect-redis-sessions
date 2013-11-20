@@ -343,6 +343,7 @@ app.use( function( req, res ){
 ## Release History
 |Version|Date|Description|
 |:--:|:--:|:--|
+|v0.1.4|2013-11-20|Fixed `No d supplied` error on upgrade|
 |v0.1.3|2013-10-15|Fixed error on missing callback|
 |v0.1.2|2013-10-15|Added example `check for a logged in user` to readme|
 |v0.1.1|2013-10-15|Fixed module to be compatible with express and changed readme examples from connect to express|
