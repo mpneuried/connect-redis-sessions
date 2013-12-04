@@ -118,5 +118,8 @@ module.exports = class Session
 		@handler.getIdSessions( @req, cb )
 		return  
 
+	getRedisSessionsModule: =>
+		return @handler.rds
+
 
 crc32 = require('buffer-crc32')

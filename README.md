@@ -180,6 +180,14 @@ Reload the session from redis sessions
 
 * `cb` : *( `Function` optional )*: Callback method.
 
+#### `req.session.getRedisSessionsModule()`
+
+Will return the internal instance of [RedisSessions](https://github.com/smrchy/redis-sessions).
+You can use this to handle sessions of other users.
+ 
+**Returns**
+
+*( `RedisSessions` )*: The raw redis sessions module.
 
 ## Examples
 
@@ -343,6 +351,7 @@ app.use( function( req, res ){
 ## Release History
 |Version|Date|Description|
 |:--:|:--:|:--|
+|v0.1.5|2013-12-04|Added method `SessionObject.getRedisSessionsModule()` to receive the internal redis session instance |
 |v0.1.4|2013-11-20|Fixed `No d supplied` error on upgrade|
 |v0.1.3|2013-10-15|Fixed error on missing callback|
 |v0.1.2|2013-10-15|Added example `check for a logged in user` to readme|
