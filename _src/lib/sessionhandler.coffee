@@ -1,8 +1,9 @@
 RedisSessions = require( "redis-sessions" )
+expressSession = require( "express-session" )
 SessionObject = require( "./sessionobject" )
 
 module.exports = class SessionHandler
-	constructor: ( options = {}, @connect )->
+	constructor: ( options = {} )->
 		if options.app? and ( _apptype = typeof options.app ) in [ "string", "function" ]
 			if _apptype is "function"
 				@getApp = options.app
@@ -12,8 +13,6 @@ module.exports = class SessionHandler
 			@_error( "no-app-defined" )
 			return
 		@app = options.app
-		
-		@utils = connect.utils
 
 		@rds = new RedisSessions( options )
 		@redis = @rds.redis
@@ -64,7 +63,7 @@ module.exports = class SessionHandler
 	createSession: ( req, sess )=>
 		#_exp = sess.cookie.expires
 		#_oma = sess.cookie.originalMaxAge
-		#sess.cookie = new @connect.session.Cookie( @cookie )
+		#sess.cookie = new expressSession.Cookie( @cookie )
 		#sess.cookie.expires = new Date( _exp ) if "string" is typeof _exp
 		req.session = new SessionObject( @, req, sess )
 		return req.session
@@ -72,7 +71,7 @@ module.exports = class SessionHandler
 	_setCookie: ( req )=>
 		return =>
 			return if not req.session
-			cookie = new @connect.session.Cookie( @cookie )
+			cookie = new expressSession.Cookie( @cookie )
 
 			proto = (req.headers['x-forwarded-proto'] or '').split(',')[0].toLowerCase().trim()
 			tls = req.connection.encrypted or ( @trustProxy and 'https' is proto)
@@ -106,7 +105,7 @@ module.exports = class SessionHandler
 	_remCookie: ( req )=>
 		return =>
 			return if not req.session
-			cookie = new @connect.session.Cookie( @cookie )
+			cookie = new expressSession.Cookie( @cookie )
 			cookie.expires = new Date(0)
 			val = cookie.serialize( req._appname, req.sessionID )
 

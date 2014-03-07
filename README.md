@@ -17,7 +17,7 @@ var app = express();
 app
 	.use( express.query() )
 	.use( express.cookieParser() )
-	.use( ConnectRedisSessions( express, { app: "myappname" } ) )
+	.use( ConnectRedisSessions( { app: "myappname" } ) )
 
 // listen for requests
 app.use( function( req, res ){
@@ -46,13 +46,13 @@ app.use( function( req, res ){
 3. init the express cookie parser	
 `app.use( express.cookieParser() );`
 4. use express redis sessions as middleware	
-`app.use( ConnectRedisSessions( express, { app: "myappname" } ) );`
+`app.use( ConnectRedisSessions( { app: "myappname" } ) );`
 
 ## Initialisation
 
-**`ConnectRedisSessions( express, options )`**
+**`ConnectRedisSessions( options )`**
 
-To init the session handling just add the two arguments `express` *( wich is the raw object out of `require( "express" )` )* and an options object.
+To init the session handling just add the options object as argument.
 
 ### Options
 
@@ -216,7 +216,7 @@ _timeSecDay = 60 * 60 * 24
 app
 	.use( express.query() )
 	.use( express.cookieParser() )
-	.use( ConnectRedisSessions( express, { app: "myappname", ttl: _timeSecDay, cookie: { maxAge: _timeSecDay * 1000 } } ) )
+	.use( ConnectRedisSessions( { app: "myappname", ttl: _timeSecDay, cookie: { maxAge: _timeSecDay * 1000 } } ) )
 
 // listen for requests
 app.use( function( req, res ){
@@ -351,6 +351,7 @@ app.use( function( req, res ){
 ## Release History
 |Version|Date|Description|
 |:--:|:--:|:--|
+|v0.2.0|2014-03-07|express 0.4.0 support |
 |v0.1.5|2013-12-04|Added method `SessionObject.getRedisSessionsModule()` to receive the internal redis session instance |
 |v0.1.4|2013-11-20|Fixed `No d supplied` error on upgrade|
 |v0.1.3|2013-10-15|Fixed error on missing callback|
