@@ -17,13 +17,13 @@
   },
   "dependencies": {
     "redis-sessions": "*",
-    "buffer-crc32": "0.2.1",
-    "pause": "0.0.1",
-    "express-session": "~1.0.2"
+    "buffer-crc32": "0.2.x",
+    "pause": "0.0.x",
+    "express-session": "1.0.x"
   },
   "devDependencies": {
     "connect": "*",
-    "express": "*",
+    "express": "4.x",
     "grunt": "0.4.x",
     "grunt-regarde": "*",
     "grunt-contrib-coffee": "*",
