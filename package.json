@@ -1,33 +1,32 @@
 {
-	"author": "mp, <mp@tcs.de> (www.tcs.de)",
-	"name": "connect-redis-sessions",
-	"description": "Session store using redis-sessions for Connect",
-	"version": "0.1.5",
-	"homepage": "https://github.com/mpneuried/connect-redis-sessions",
-	"private": false,
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/mpneuried/connect-redis-sessions.git"
-	},
-	"engines": {
-		"node": "> 0.8.20"
-	},
-	"scripts": {
-		"test": "node test.js"
-	},
-
-	"dependencies": {
-		"redis-sessions": "*",
-		"buffer-crc32": "0.2.1",
-		"pause": "0.0.1"
-	},
-	"devDependencies": {
-		"connect": "*",
-		"express": "*",
-
-		"grunt": "0.4.x",
-		"grunt-regarde": "*",
-		"grunt-contrib-coffee": "*",
-		"grunt-include-replace": "*"
-	}
+  "author": "mp, <mp@tcs.de> (www.tcs.de)",
+  "name": "connect-redis-sessions",
+  "description": "Session store using redis-sessions for Connect",
+  "version": "0.2.0",
+  "homepage": "https://github.com/mpneuried/connect-redis-sessions",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mpneuried/connect-redis-sessions.git"
+  },
+  "engines": {
+    "node": "> 0.8.20"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "redis-sessions": "*",
+    "buffer-crc32": "0.2.1",
+    "pause": "0.0.1",
+    "express-session": "~1.0.2"
+  },
+  "devDependencies": {
+    "connect": "*",
+    "express": "*",
+    "grunt": "0.4.x",
+    "grunt-regarde": "*",
+    "grunt-contrib-coffee": "*",
+    "grunt-include-replace": "*"
+  }
 }

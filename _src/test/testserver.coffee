@@ -16,7 +16,7 @@ app
 	.use(connect.query())
 	.use(connect.cookieParser())
 	.use(connect.bodyParser())
-	.use( ConnectRedisSessions( connect, { app: _getAppName, debug: true, cookie: { maxAge: 1000 * 60 * 60 * 24 } } ) )
+	.use( ConnectRedisSessions( { app: _getAppName, debug: true, cookie: { maxAge: 1000 * 60 * 60 * 24 } } ) )
 	#.use(connect.session( secret: 'mysecret', cookie: { maxAge: 1000 * 60 } ))
 	#.use(connect.session( secret: 'mysecret', cookie: { maxAge: 1000 * 60 },  store: new ConnectRedisSessions( app: "test") ))
 

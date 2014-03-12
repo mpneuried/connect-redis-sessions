@@ -2,11 +2,8 @@ SessionHandler = require( "./sessionhandler" )
 SessionObject = require( "./sessionobject" )
 pause = require( "pause" )
 
-module.exports = ( connect, options )->
-	Cookie = connect.session.Cookie
-	#Session = connect.session.Session
-
-	sessionHandler = new SessionHandler( options, connect )
+module.exports = ( options )->
+	sessionHandler = new SessionHandler( options )
 
 	return ( req, res, next )->
 		if not req.res?

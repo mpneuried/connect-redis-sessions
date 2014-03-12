@@ -36,7 +36,7 @@ module.exports = (grunt) ->
 					suffix: ''
 
 				files:
-					"": ["index.js"]
+					"index.js": ["index.js"]
 	
 
 	# Load npm modules
