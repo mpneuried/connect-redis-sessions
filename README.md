@@ -9,6 +9,7 @@ With [redis sessions](https://github.com/smrchy/redis-sessions) you can handle m
 ```js
 // get the modules
 var express = require( "express" );
+var cookieParser = require( "cookie-parser" );
 var ConnectRedisSessions = require( "connect-redis-sessions" );
 var app = express();
 
@@ -16,7 +17,7 @@ var app = express();
 // configute express
 app
 	.use( express.query() )
-	.use( express.cookieParser() )
+	.use( cookieParser() )
 	.use( ConnectRedisSessions( { app: "myappname" } ) )
 
 // listen for requests
@@ -200,6 +201,9 @@ You can use this to handle sessions of other users.
 ```js
 // get the modules
 var express = require( "express" );
+var cookieParser = require( "cookie-parser" );
+var bodyParser = require( "body-parser" );
+var logger = require( "morgan" );
 var ConnectRedisSessions = require( "connect-redis-sessions" );
 var app = express();
 
@@ -218,8 +222,10 @@ _getAppName = function(req, cb) {
 // configute express
 _timeSecDay = 60 * 60 * 24
 app
+	.use( logger( "dev" ) )
 	.use( express.query() )
-	.use( express.cookieParser() )
+	.use( bodyParser() )
+	.use( cookieParser() )
 	.use( ConnectRedisSessions( { app: "myappname", ttl: _timeSecDay, cookie: { maxAge: _timeSecDay * 1000 } } ) )
 
 // listen for requests
@@ -355,6 +361,7 @@ app.use( function( req, res ){
 ## Release History
 |Version|Date|Description|
 |:--:|:--:|:--|
+|v1.0.1|2014-03-17|Updated readme with external express/connect middleware|
 |v1.0.0|2014-03-17|fixed cookie set for express 4.x |
 |v0.2.0|2014-03-07|express 0.4.0 support |
 |v0.1.5|2013-12-04|Added method `SessionObject.getRedisSessionsModule()` to receive the internal redis session instance |
