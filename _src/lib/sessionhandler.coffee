@@ -57,7 +57,13 @@ module.exports = class SessionHandler
 	generate: ( req, token, id )=>
 		req.sessionID = token
 		req.session = new SessionObject( @, req, @_redisToSession( id: id, ip: @_getRequestIP( req ) ) )
-		req.res.on "header", @_setCookie( req )
+
+		res = req.res
+		_writeHead = res.writeHead
+		res.writeHead = =>
+			@_setCookie( req )
+			_writeHead.apply( res, arguments )
+			return
 		return
 
 	createSession: ( req, sess )=>
@@ -68,49 +74,46 @@ module.exports = class SessionHandler
 		req.session = new SessionObject( @, req, sess )
 		return req.session
 
-	_setCookie: ( req )=>
-		return =>
-			return if not req.session
-			cookie = new expressSession.Cookie( @cookie )
+	_setCookie: ( req )=>		
+		return if not req.session
+		cookie = new expressSession.Cookie( @cookie )
 
-			proto = (req.headers['x-forwarded-proto'] or '').split(',')[0].toLowerCase().trim()
-			tls = req.connection.encrypted or ( @trustProxy and 'https' is proto)
+		proto = (req.headers['x-forwarded-proto'] or '').split(',')[0].toLowerCase().trim()
+		tls = req.connection.encrypted or ( @trustProxy and 'https' is proto)
 
-			if cookie.secure and not tls
-				console.warn( "not secured" ) if @debug
-				return 
+		if cookie.secure and not tls
+			console.warn( "not secured" ) if @debug
+			return 
 
-			# long expires, handle expiry server-side
-			if cookie.hasLongExpires
-				console.log( "allready set cookie" ) if @debug
-				return
-
-			# browser-session length cookie
-			if not cookie.expires?
-				if not isNew 
-					console.log( "already set browser-session cooki" ) if @debug
-					return
-
-			# compare hashes and ids
-			else if req._originalHash is req.session.hash() and req._originalId is req.session.id
-				console.log( "unmodified session" ) if @debug
-				return
-
-			val = cookie.serialize( req._appname, req.sessionID)
-
-			req.res.setHeader('Set-Cookie', val)
-
+		# long expires, handle expiry server-side
+		if cookie.hasLongExpires
+			console.log( "allready set cookie" ) if @debug
 			return
+
+		# browser-session length cookie
+		if not cookie.expires?
+			if not isNew 
+				console.log( "already set browser-session cooki" ) if @debug
+				return
+
+		# compare hashes and ids
+		else if req._originalHash is req.session.hash() and req._originalId is req.session.id
+			console.log( "unmodified session" ) if @debug
+			return
+
+		val = cookie.serialize( req._appname, req.sessionID)
+		req.res.setHeader('Set-Cookie', val)
+
+		return
 
 	_remCookie: ( req )=>
-		return =>
-			return if not req.session
-			cookie = new expressSession.Cookie( @cookie )
-			cookie.expires = new Date(0)
-			val = cookie.serialize( req._appname, req.sessionID )
+		return if not req.session
+		cookie = new expressSession.Cookie( @cookie )
+		cookie.expires = new Date(0)
+		val = cookie.serialize( req._appname, req.sessionID )
 
-			req.res.setHeader('Set-Cookie', val)
-			return
+		req.res.setHeader('Set-Cookie', val)
+		return
 
 
 	_getRequestIP: ( req )=>

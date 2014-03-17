@@ -48,6 +48,10 @@ app.use( function( req, res ){
 4. use express redis sessions as middleware	
 `app.use( ConnectRedisSessions( { app: "myappname" } ) );`
 
+<span style="color:red">**Attension:**</span>
+If you're using Express < 4.x then please use version `0.x` otherwise use version `1.x` of `connect-redis-sessions`.
+It schould work with connect and the older Express, but there could be eventual issues due to the new Express 4.x api behaviour i haven't found yet.
+
 ## Initialisation
 
 **`ConnectRedisSessions( options )`**
@@ -351,6 +355,7 @@ app.use( function( req, res ){
 ## Release History
 |Version|Date|Description|
 |:--:|:--:|:--|
+|v1.0.0|2014-03-17|fixed cookie set for express 4.x |
 |v0.2.0|2014-03-07|express 0.4.0 support |
 |v0.1.5|2013-12-04|Added method `SessionObject.getRedisSessionsModule()` to receive the internal redis session instance |
 |v0.1.4|2013-11-20|Fixed `No d supplied` error on upgrade|

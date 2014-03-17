@@ -63,7 +63,15 @@ module.exports = class Session
 
 		@id = null
 		@handler.destroy @req, ( err, data )=>
-			@req.res.on "header", @handler._remCookie( @req )
+
+			res = @req.res
+
+			_writeHead = res.writeHead
+			res.writeHead = =>
+				@handler._remCookie( @req )
+				_writeHead.apply( res, arguments )
+				return
+
 			cb( err, data ) if cb?
 			return  
 			
@@ -88,7 +96,15 @@ module.exports = class Session
 
 		@id = null
 		@handler.killIdSessions @req, ( err, data )=>
-			@req.res.on "header", @handler._remCookie( @req )
+			
+			res = @req.res
+			
+			_writeHead = res.writeHead
+			res.writeHead = =>
+				@handler._remCookie( @req )
+				_writeHead.apply( res, arguments )
+				return
+
 			cb( err, data ) if cb?
 			return
 		return @

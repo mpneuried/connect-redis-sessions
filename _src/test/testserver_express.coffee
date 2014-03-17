@@ -1,6 +1,10 @@
 express = require( "express" )
 ConnectRedisSessions = require( "../" )
 
+cookieparser = require( "cookie-parser" )
+bodyparser = require( "body-parser" )
+logger = require( "morgan" )
+
 app = express()
 
 _getAppName = ( req, cb )=>
@@ -13,10 +17,10 @@ _getAppName = ( req, cb )=>
 	return
 
 app
-	.use( express.logger( "dev" ) )
-	.use(express.query())
-	.use(express.cookieParser())
-	.use(express.bodyParser())
+	.use( logger( "dev" ) )
+	.use( express.query())
+	.use( cookieparser())
+	.use( bodyparser())
 	.use( ConnectRedisSessions( { app: _getAppName, debug: true, cookie: { maxAge: 1000 * 60 * 60 * 24 } } ) )
 	#.use(express.session( secret: 'mysecret', cookie: { maxAge: 1000 * 60 } ))
 	#.use(express.session( secret: 'mysecret', cookie: { maxAge: 1000 * 60 },  store: new ConnectRedisSessions( app: "test") ))

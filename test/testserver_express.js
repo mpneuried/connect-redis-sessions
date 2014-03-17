@@ -1,9 +1,15 @@
 (function() {
-  var ConnectRedisSessions, app, express, _getAppName;
+  var ConnectRedisSessions, app, bodyparser, cookieparser, express, logger, _getAppName;
 
   express = require("express");
 
   ConnectRedisSessions = require("../");
+
+  cookieparser = require("cookie-parser");
+
+  bodyparser = require("body-parser");
+
+  logger = require("morgan");
 
   app = express();
 
@@ -19,7 +25,7 @@
     };
   })(this);
 
-  app.use(express.logger("dev")).use(express.query()).use(express.cookieParser()).use(express.bodyParser()).use(ConnectRedisSessions({
+  app.use(logger("dev")).use(express.query()).use(cookieparser()).use(bodyparser()).use(ConnectRedisSessions({
     app: _getAppName,
     debug: true,
     cookie: {
