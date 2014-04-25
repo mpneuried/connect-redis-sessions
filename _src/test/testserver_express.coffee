@@ -22,6 +22,7 @@ app
 	.use( cookieparser())
 	.use( bodyparser())
 	.use( ConnectRedisSessions( { app: _getAppName, debug: true, cookie: { maxAge: 1000 * 60 * 60 * 24 } } ) )
+	#.use( ConnectRedisSessions( { app: _getAppName, debug: true } ) )
 	#.use(express.session( secret: 'mysecret', cookie: { maxAge: 1000 * 60 } ))
 	#.use(express.session( secret: 'mysecret', cookie: { maxAge: 1000 * 60 },  store: new ConnectRedisSessions( app: "test") ))
 
@@ -102,3 +103,4 @@ app.use ( req, res )->
 	return
 
 app.listen( 3005 )
+console.log "listen to port 3005"

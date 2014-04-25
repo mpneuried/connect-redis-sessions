@@ -80,6 +80,7 @@ module.exports = class SessionHandler
 
 		proto = (req.headers['x-forwarded-proto'] or '').split(',')[0].toLowerCase().trim()
 		tls = req.connection.encrypted or ( @trustProxy and 'https' is proto)
+		isNew = req.session?.id isnt req.cookies?[req._appname]
 
 		if cookie.secure and not tls
 			console.warn( "not secured" ) if @debug
@@ -91,9 +92,10 @@ module.exports = class SessionHandler
 			return
 
 		# browser-session length cookie
-		if not cookie.expires?
-			if not isNew 
-				console.log( "already set browser-session cooki" ) if @debug
+		if not cookie._expires?
+			console.log( "existing non expiring cookie", req.cookies?[req._appname], req.session?.id, isNew ) if @debug
+			if not isNew
+				console.log( "already set browser-session cookie" ) if @debug
 				return
 
 		# compare hashes and ids

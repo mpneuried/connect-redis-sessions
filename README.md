@@ -361,6 +361,7 @@ app.use( function( req, res ){
 ## Release History
 |Version|Date|Description|
 |:--:|:--:|:--|
+|v1.0.2|2014-04-25|Small bugfix for cookie handling|
 |v1.0.1|2014-03-17|Updated readme with external express/connect middleware|
 |v1.0.0|2014-03-17|fixed cookie set for express 4.x |
 |v0.2.0|2014-03-07|express 0.4.0 support |

@@ -131,4 +131,6 @@
 
   app.listen(3005);
 
+  console.log("listen to port 3005");
+
 }).call(this);
