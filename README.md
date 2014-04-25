@@ -1,6 +1,10 @@
 connect-redis-sessions
 ======================
 
+[![Build Status](https://david-dm.org/mpneuried/connect-redis-sessions.png)](https://david-dm.org/mpneuried/connect-redis-sessions)
+
+[![infos](https://nodei.co/npm/connect-redis-sessions.png?downloads=true&stars=true)](https://nodei.co/npm/connect-redis-sessions/)
+
 Is a connect or express middleware to simply use the [redis sessions](https://github.com/smrchy/redis-sessions).
 With [redis sessions](https://github.com/smrchy/redis-sessions) you can handle multiple sessions per user_id.
 
@@ -377,6 +381,9 @@ app.use( function( req, res ){
 |:--|:--|
 |[**redis-sessions**](https://github.com/smrchy/redis-sessions)|The redis session module this middleware module is based on|
 |[**tcs_node_auth**](https://github.com/mpneuried/tcs_node_auth)|Authentication module to handle login and register with a integrated mail double-opt-in logic.|
+
+[![downloads](https://nodei.co/npm-dl/connect-redis-sessions.png?months=6)](https://nodei.co/npm/connect-redis-sessions/)
+
 
 ## The MIT License (MIT)
 
