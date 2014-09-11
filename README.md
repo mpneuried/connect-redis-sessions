@@ -223,6 +223,8 @@ _getAppName = function(req, cb) {
 	}
 };
 
+fnCRS = ConnectRedisSessions( { app: "myappname", ttl: _timeSecDay, cookie: { maxAge: _timeSecDay * 1000 } } );
+
 // configute express
 _timeSecDay = 60 * 60 * 24
 app
@@ -230,7 +232,11 @@ app
 	.use( express.query() )
 	.use( bodyParser() )
 	.use( cookieParser() )
-	.use( ConnectRedisSessions( { app: "myappname", ttl: _timeSecDay, cookie: { maxAge: _timeSecDay * 1000 } } ) )
+	.use( fnCRS )
+
+
+// an example how to get the internal redis-sessions instance out of the connect-redis-sessions module
+redisSessionsInstance = fnCRS.handler.rds;
 
 // listen for requests
 app.use( function( req, res ){
@@ -365,6 +371,7 @@ app.use( function( req, res ){
 ## Release History
 |Version|Date|Description|
 |:--:|:--:|:--|
+|v1.0.3|2014-09-11|Added return of `sessionhandler` object on initialisation|
 |v1.0.2|2014-04-25|Small bugfix for cookie handling|
 |v1.0.1|2014-03-17|Updated readme with external express/connect middleware|
 |v1.0.0|2014-03-17|fixed cookie set for express 4.x |

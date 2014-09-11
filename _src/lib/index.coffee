@@ -5,7 +5,7 @@ pause = require( "pause" )
 module.exports = ( options )->
 	sessionHandler = new SessionHandler( options )
 
-	return ( req, res, next )->
+	fn = ( req, res, next )->
 		if not req.res?
 			req.res = res
 
@@ -94,3 +94,6 @@ module.exports = ( options )->
 			return
 
 		return
+		
+	fn.handler = sessionHandler
+	return fn
