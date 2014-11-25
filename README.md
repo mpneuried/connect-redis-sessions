@@ -212,7 +212,7 @@ var ConnectRedisSessions = require( "connect-redis-sessions" );
 var app = express();
 
 // get the appname by the first part of the url
-_getAppName = function(req, cb) {
+var _getAppName = function(req, cb) {
 	var appname;
 	appname = req._parsedUrl.pathname.split("/")[1];
 	if (appname != null) {
@@ -223,7 +223,7 @@ _getAppName = function(req, cb) {
 	}
 };
 
-fnCRS = ConnectRedisSessions( { app: "myappname", ttl: _timeSecDay, cookie: { maxAge: _timeSecDay * 1000 } } );
+fnCRS = ConnectRedisSessions( { app: _getAppName, ttl: _timeSecDay, cookie: { maxAge: _timeSecDay * 1000 } } );
 
 // configute express
 _timeSecDay = 60 * 60 * 24
