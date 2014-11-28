@@ -78,8 +78,12 @@ module.exports = class SessionHandler
 		return if not req.session
 		cookie = new expressSession.Cookie( @cookie )
 
-		proto = (req.headers['x-forwarded-proto'] or '').split(',')[0].toLowerCase().trim()
-		tls = req.connection.encrypted or ( @trustProxy and 'https' is proto)
+		if req.secure?
+			tls = req.secure
+		else
+			proto = (req.headers['x-forwarded-proto'] or '').split(',')[0].toLowerCase().trim()
+			tls = req.connection.encrypted or ( @trustProxy and 'https' is proto)
+
 		isNew = req.session?.id isnt req.cookies?[req._appname]
 
 		if cookie.secure and not tls
