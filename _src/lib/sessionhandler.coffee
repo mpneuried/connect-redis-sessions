@@ -123,7 +123,9 @@ module.exports = class SessionHandler
 
 
 	_getRequestIP: ( req )=>
-		if req.headers?['X-Forwarded-For']?
+		if req.ip
+			return req.ip
+		else if req.headers?['X-Forwarded-For']?
 			return req.headers['X-Forwarded-For']
 		else
 			return req.connection.remoteAddress
