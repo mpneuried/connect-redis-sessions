@@ -89,7 +89,7 @@ The namespace prefix for all Redis keys used by the redis session module.
 - **wipe** : *( `Number`, default = `600` )*
 The interval in second after which the timed out redis sessions are wiped. No value less than 10 allowed.
 - **ttl** : *( `Number`, default = `7200` )*
-Redis session timeout to wipe the session on idle time
+Redis session timeout to wipe the session on idle time. Must be over `10`. If you set a value `< 10` the module will use `10` instead.
 
 
 ## Session Object
@@ -121,13 +121,14 @@ Contains the redis sessions meta data.
 
 ### Methods
 
-#### `req.session.upgrade( user_id [, cb] )`
+#### `req.session.upgrade( user_id [, ttl ][, cb] )`
 
 upgrade a empty session to a real redis session by upgrading the session with the user_id.
  
 **Arguments**
 
-* `user_id` : *( `String|Number` required )*: The user id this session shpuld belong to.
+* `user_id` : *( `String|Number` required )*: The user id this session should belong to.
+* `ttl` : *( `Number` optional; default = `options.ttl` )*: Optinal ttl for this session. If not set the ttl defined in options would be used. Must be over `10`. If you set a value `< 10` the module will use `10` instead.
 * `cb` : *( `Function` optional )*: Callback method with the results.
 
 #### `req.session.soid( [ dt,] cb )`
@@ -269,7 +270,7 @@ app.use( function( req, res ){
 // listen for requests
 app.use( function( req, res ){
 	var user_id = "myuser_id" // code to get your user_id 
-	req.session.upgrade( user_id, function(){
+	req.session.upgrade( user_id, req.query.sessionttl, function(){
 		console.log( req.session );/*
 			{
 				"id": "myuser_id",
@@ -371,6 +372,7 @@ app.use( function( req, res ){
 ## Release History
 |Version|Date|Description|
 |:--:|:--:|:--|
+|v1.2.0|2014-11-28|Added ttl to upgrade method + Issues by [thynson](https://github.com/thynson)|
 |v1.0.3|2014-09-11|Added return of `sessionhandler` object on initialisation|
 |v1.0.2|2014-04-25|Small bugfix for cookie handling|
 |v1.0.1|2014-03-17|Updated readme with external express/connect middleware|
@@ -388,6 +390,18 @@ app.use( function( req, res ){
 |:--|:--|
 |[**redis-sessions**](https://github.com/smrchy/redis-sessions)|The redis session module this middleware module is based on|
 |[**tcs_node_auth**](https://github.com/mpneuried/tcs_node_auth)|Authentication module to handle login and register with a integrated mail double-opt-in logic.|
+
+## Other projects
+
+|Name|Description|
+|:--|:--|
+|[**systemhealth**](https://github.com/mpneuried/systemhealth)|Node module to run simple custom checks for your machine or it's connections. It will use [redis-heartbeat](https://github.com/mpneuried/redis-heartbeat) to send the current state to redis.|
+|[**node-cache**](https://github.com/tcs-de/nodecache)|Simple and fast NodeJS internal caching. Node internal in memory cache like memcached.|
+|[**rsmq**](https://github.com/smrchy/rsmq)|A really simple message queue based on Redis|
+|[**task-queue-worker**](https://github.com/smrchy/task-queue-worker)|A powerful tool for background processing of tasks that are run by making standard http requests.|
+|[**soyer**](https://github.com/mpneuried/soyer)|Soyer is small lib for serverside use of Google Closure Templates with node.js.|
+|[**grunt-soy-compile**](https://github.com/mpneuried/grunt-soy-compile)|Compile Goggle Closure Templates ( SOY ) templates inclding the handling of XLIFF language files.|
+|[**backlunr**](https://github.com/mpneuried/backlunr)|A solution to bring Backbone Collections together with the browser fulltext search engine Lunr.js|
 
 [![downloads](https://nodei.co/npm-dl/connect-redis-sessions.png?months=6)](https://nodei.co/npm/connect-redis-sessions/)
 

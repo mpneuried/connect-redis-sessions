@@ -39,7 +39,19 @@
       res.end("EMPTY");
       return;
     }
-    if (req.query.upgrade != null) {
+    if ((req.query.upgrade != null) && (req.query.ttl != null)) {
+      req.session.upgrade(req.query.upgrade, req.query.ttl, (function(_this) {
+        return function(err) {
+          var _ref, _ref1;
+          if (err) {
+            res.end("ERROR: ", err);
+            return;
+          }
+          console.log("SESSION", req.session);
+          res.end("LOGGED IN - USER: " + ((_ref = req.session) != null ? (_ref1 = _ref._meta) != null ? _ref1.id : void 0 : void 0));
+        };
+      })(this));
+    } else if (req.query.upgrade != null) {
       req.session.upgrade(req.query.upgrade, (function(_this) {
         return function(err) {
           var _ref, _ref1;

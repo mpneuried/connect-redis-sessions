@@ -12,14 +12,32 @@ module.exports = class Session
 				@[ _k ] = _v
 		return
 
-	upgrade: ( id, cb )=>
+	upgrade: ( id, ttl, cb )=>
+		# validate arguments
+		if typeof ttl is "function"
+			# case: no ttl
+			cb = ttl
+			ttl = null
+		else if ttl?
+			# case: with ttl
+			# validate ttl
+			if typeof ttl isnt 'number'
+				ttl = parseInt( ttl, 10 )
+				ttl = null if isNaN( ttl ) 
+			else
+				ttl = null
+
+		if ttl? and ttl < 10
+			console.warn "Tried to use `ttl < 10`! So Reset ttl to `10`."
+			ttl = 10
+
 		if @id?
 			cb() if cb?
 			return
-		@handler.create @req, id, ( err, token )=>
+		@handler.create @req, id, ttl, ( err, token )=>
 			return cb( err ) if cb? and err
 			console.log "NEW TOKEN", token if @handler.debug
-			@handler.generate( @req, token, id )
+			@handler.generate( @req, token, id, ttl )
 			cb() if cb?
 			return
 		return @

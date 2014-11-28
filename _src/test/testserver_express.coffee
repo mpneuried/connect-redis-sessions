@@ -31,7 +31,15 @@ app.use ( req, res )->
 		res.end( "EMPTY" )
 		return
 
-	if req.query.upgrade?
+	if req.query.upgrade? and req.query.ttl?
+		req.session.upgrade req.query.upgrade, req.query.ttl, ( err )=>
+			if err
+				res.end( "ERROR: ", err )
+				return
+			console.log "SESSION", req.session
+			res.end( "LOGGED IN - USER: #{ req.session?._meta?.id}" )
+			return
+	else if req.query.upgrade?
 		req.session.upgrade req.query.upgrade, ( err )=>
 			if err
 				res.end( "ERROR: ", err )

@@ -28,7 +28,11 @@ module.exports = class SessionHandler
 
 		@trustProxy = options.proxy
 		@cookie = options.cookie or {}
-		@ttl = options.ttl
+		if options.ttl < 10
+			console.warn "Tried to use `ttl < 10`! So Reset ttl to `10`."
+			@ttl = 10
+		else
+			@ttl = options.ttl
 
 		return
 
@@ -54,9 +58,9 @@ module.exports = class SessionHandler
 			throw _err
 		return
 
-	generate: ( req, token, id )=>
+	generate: ( req, token, id, ttl )=>
 		req.sessionID = token
-		req.session = new SessionObject( @, req, @_redisToSession( id: id, ip: @_getRequestIP( req ) ) )
+		req.session = new SessionObject( @, req, @_redisToSession( id: id, ttl: ttl, ip: @_getRequestIP( req ) ) )
 
 		res = req.res
 		_writeHead = res.writeHead
@@ -130,8 +134,10 @@ module.exports = class SessionHandler
 		else
 			return req.connection.remoteAddress
 
-	create: ( req, id, cb )=>
-		@rds.create { app: req._appname, ttl: @ttl, id: id, ip: @_getRequestIP( req ) }, ( err, data )=>
+	create: ( req, id, ttl = @ttl, cb )=>
+		
+		console.log( "CREATE", id, ttl ) if @debug
+		@rds.create { app: req._appname, ttl: ttl, id: id, ip: @_getRequestIP( req ) }, ( err, data )=>
 			return cb( err ) if err
 			cb( null, data.token )
 			return
