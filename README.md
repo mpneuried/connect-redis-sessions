@@ -2,7 +2,7 @@ connect-redis-sessions
 ======================
 
 [![Build Status](https://secure.travis-ci.org/mpneuried/connect-redis-sessions.png?branch=master)](http://travis-ci.org/mpneuried/connect-redis-sessions)
-[![Windows Tests](https://img.shields.io/appveyor/ci/mpneuried/connect-redis-sessions.svg?label=Windows%20Test)]()
+[![Windows Tests](https://img.shields.io/appveyor/ci/mpneuried/connect-redis-sessions.svg?label=Windows%20Test)](https://ci.appveyor.com/project/mpneuried/connect-redis-sessions)
 [![Dependencies Status](https://david-dm.org/mpneuried/connect-redis-sessions.png)](https://david-dm.org/mpneuried/connect-redis-sessions)
 [![NPM version](https://badge.fury.io/js/connect-redis-sessions.png)](http://badge.fury.io/js/connect-redis-sessions)
 
