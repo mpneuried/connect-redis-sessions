@@ -23,7 +23,7 @@ module.exports = class Session
 			# validate ttl
 			if typeof ttl isnt 'number'
 				ttl = parseInt( ttl, 10 )
-				ttl = null if isNaN( ttl ) 
+				ttl = null if isNaN( ttl )
 			else
 				ttl = null
 
@@ -91,7 +91,7 @@ module.exports = class Session
 				return
 
 			cb( err, data ) if cb?
-			return  
+			return
 			
 		return @
 
@@ -150,7 +150,7 @@ module.exports = class Session
 			@handler._error( "no-token", cb )
 			return @
 		@handler.getIdSessions( @req, cb )
-		return  
+		return
 
 	getRedisSessionsModule: =>
 		return @handler.rds

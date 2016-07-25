@@ -36,12 +36,12 @@ module.exports = class SessionHandler
 
 		return
 
-	_defaultGetApp: ( app )=>
-		return ( req, cb )=>
+	_defaultGetApp: ( app )->
+		return ( req, cb )->
 			cb( null, app )
 
 	_error: ( key, cb )=>
-		if typeof key is "string" 
+		if typeof key is "string"
 			_err = new Error()
 			_err.name = key
 			_err.message = @ERRORS[ key ] if @ERRORS[ key ]?
@@ -78,7 +78,7 @@ module.exports = class SessionHandler
 		req.session = new SessionObject( @, req, sess )
 		return req.session
 
-	_setCookie: ( req )=>		
+	_setCookie: ( req )=>
 		return if not req.session
 		cookie = new expressSession.Cookie( @cookie )
 
@@ -92,7 +92,7 @@ module.exports = class SessionHandler
 
 		if cookie.secure and not tls
 			console.warn( "not secured" ) if @debug
-			return 
+			return
 
 		# long expires, handle expiry server-side
 		if cookie.hasLongExpires
@@ -126,7 +126,7 @@ module.exports = class SessionHandler
 		return
 
 
-	_getRequestIP: ( req )=>
+	_getRequestIP: ( req )->
 		if req.ip
 			return req.ip
 		else if req.headers?['X-Forwarded-For']?
@@ -137,7 +137,7 @@ module.exports = class SessionHandler
 	create: ( req, id, ttl = @ttl, cb )=>
 		
 		console.log( "CREATE", id, ttl ) if @debug
-		@rds.create { app: req._appname, ttl: ttl, id: id, ip: @_getRequestIP( req ) }, ( err, data )=>
+		@rds.create { app: req._appname, ttl: ttl, id: id, ip: @_getRequestIP( req ) }, ( err, data )->
 			return cb( err ) if err
 			cb( null, data.token )
 			return
@@ -147,16 +147,18 @@ module.exports = class SessionHandler
 		@rds.get { app: req._appname, token: req.sessionID }, ( err, data )=>
 			return cb( err ) if err
 			console.log "GOT", data if @debug
+			
 			if data? and Object.keys( data ).length isnt 0
 				cb( null, @_redisToSession( data )) if cb
-			else
-				cb( null, null ) if cb	
+				return
+			
+			cb( null, null ) if cb
 			return
 
 		return
 
 	set: ( req, cb )=>
-		_args = 
+		_args =
 			app: req._appname
 			token: req.sessionID
 
@@ -165,12 +167,13 @@ module.exports = class SessionHandler
 			_args.d = req.session.attributes()
 		else
 			_args.d = {}
+			
 		@rds.set _args, ( err, data )=>
 			return cb( err ) if err
 			if data? and Object.keys( data ).length isnt 0
 				cb( null, @_redisToSession( data )) if cb
 			else
-				cb( null, null ) if cb	
+				cb( null, null ) if cb
 			return
 		return
 
@@ -179,7 +182,7 @@ module.exports = class SessionHandler
 		for _k, _v of data.d or {}
 			_sess[ _k ] = _v
 		
-		_sess._meta = 
+		_sess._meta =
 			id: data.id or null
 			r: data.r or 1
 			w: data.w or 1
@@ -190,16 +193,16 @@ module.exports = class SessionHandler
 		_sess
 
 	destroy: ( req, cb )=>
-		@rds.kill { app: req._appname, token: req.sessionID }, ( err, data )=>
+		@rds.kill { app: req._appname, token: req.sessionID }, ( err, data )->
 			return cb( err ) if err
-			cb( null, data.kill or 0 ) if cb	
+			cb( null, data.kill or 0 ) if cb
 			return
 		return
 
 	killIdSessions: ( req, cb )=>
-		@rds.killsoid { app: req._appname, id: req.session._meta.id }, ( err, data )=>
+		@rds.killsoid { app: req._appname, id: req.session._meta.id }, ( err, data )->
 			return cb( err ) if err
-			cb( null, data.kill or 0 ) if cb	
+			cb( null, data.kill or 0 ) if cb
 			return
 		return
 
@@ -215,7 +218,7 @@ module.exports = class SessionHandler
 		@rds.activity( { app: req._appname, dt: dt }, cb )
 		return
 
-	ERRORS: 
+	ERRORS:
 		"no-token": "This is an invalid or outdated session"
 		"no-app-defined": "To initialize a ConnectRedisSessions object you have to define the option `app` as a string or function"
 		"cookies-disabled": "The cookieParser has not been initialized. Please add `connect.cookieParser()` to your connect/express configuration."

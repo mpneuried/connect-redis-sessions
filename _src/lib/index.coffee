@@ -9,7 +9,7 @@ module.exports = ( options )->
 		if not req.res?
 			req.res = res
 
-		return next() if req.session			
+		return next() if req.session
 
 		if not sessionHandler.ready
 			console.warn( "Connection not ready" ) if sessionHandler.debug
@@ -19,7 +19,7 @@ module.exports = ( options )->
 		# pathname mismatch
 		return next() if req.originalUrl.indexOf( sessionHandler.cookie.path or "/" )
 
-		sessionHandler.getApp req, ( err, appname )=>
+		sessionHandler.getApp req, ( err, appname )->
 			if err
 				sessionHandler._error( err, res )
 				return
@@ -38,11 +38,11 @@ module.exports = ( options )->
 				req.sessionID = null
 
 			end = res.end
-			res.end = ( data, encoding )=>
+			res.end = ( data, encoding )->
 				res.end = end
 				return res.end( data, encoding ) if not req.sessionID or not req.session?
 				if req._originalHash isnt req.session.hash()
-					req.session.save ( err )=>
+					req.session.save ( err )->
 						console.error( err ) if err
 						res.end( data, encoding )
 						return
@@ -66,7 +66,7 @@ module.exports = ( options )->
 			else
 
 				_pause = pause(req)
-				sessionHandler.get req, ( err, data )=>
+				sessionHandler.get req, ( err, data )->
 					_next = next
 					next = ( err )->
 						_next( err )

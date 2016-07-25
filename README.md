@@ -1,9 +1,10 @@
 connect-redis-sessions
 ======================
 
-[![Build Status](https://david-dm.org/mpneuried/connect-redis-sessions.png)](https://david-dm.org/mpneuried/connect-redis-sessions)
-
-[![infos](https://nodei.co/npm/connect-redis-sessions.png?downloads=true&stars=true)](https://nodei.co/npm/connect-redis-sessions/)
+[![Build Status](https://secure.travis-ci.org/mpneuried/connect-redis-sessions.png?branch=master)](http://travis-ci.org/mpneuried/connect-redis-sessions)
+[![Windows Tests](https://img.shields.io/appveyor/ci/mpneuried/connect-redis-sessions.svg?label=Windows%20Test)]()
+[![Dependencies Status](https://david-dm.org/mpneuried/connect-redis-sessions.png)](https://david-dm.org/mpneuried/connect-redis-sessions)
+[![NPM version](https://badge.fury.io/js/connect-redis-sessions.png)](http://badge.fury.io/js/connect-redis-sessions)
 
 Is a connect or express middleware to simply use the [redis sessions](https://github.com/smrchy/redis-sessions).
 With [redis sessions](https://github.com/smrchy/redis-sessions) you can handle multiple sessions per user_id.
@@ -372,6 +373,7 @@ app.use( function( req, res ){
 ## Release History
 |Version|Date|Description|
 |:--:|:--:|:--|
+|v1.3.0|2016-07-25|Updated dev env. and added mocha tests|
 |v1.2.0|2014-11-28|Added ttl to upgrade method + Issues by [thynson](https://github.com/thynson)|
 |v1.0.3|2014-09-11|Added return of `sessionhandler` object on initialisation|
 |v1.0.2|2014-04-25|Small bugfix for cookie handling|
