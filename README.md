@@ -373,6 +373,7 @@ app.use( function( req, res ){
 ## Release History
 |Version|Date|Description|
 |:--:|:--:|:--|
+|v1.3.1|2016-07-26|Fixed configurations of automated tests by travis and appveyor|
 |v1.3.0|2016-07-25|Updated dev env. and added mocha tests|
 |v1.2.0|2014-11-28|Added ttl to upgrade method + Issues by [thynson](https://github.com/thynson)|
 |v1.0.3|2014-09-11|Added return of `sessionhandler` object on initialisation|
