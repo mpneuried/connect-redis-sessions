@@ -22,7 +22,7 @@ module.exports = class SessionHandler
 		else
 			@debug = false
 
-		@ready = false
+		@ready = @redis.connected
 		@redis.on "connect", => @ready = true
 		@redis.on "disconnect", => @ready = false
 
