@@ -373,6 +373,7 @@ app.use( function( req, res ){
 ## Release History
 |Version|Date|Description|
 |:--:|:--:|:--|
+|v2.0.0|2018-12-10|updated deps + removed support for node < 6|
 |v1.3.2|2016-07-26|Fixed #13 to prevent error output `invalidValue: d`|
 |v1.3.1|2016-07-26|Fixed configurations of automated tests by travis and appveyor|
 |v1.3.0|2016-07-25|Updated dev env. and added mocha tests|
