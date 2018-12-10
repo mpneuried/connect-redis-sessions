@@ -42,7 +42,11 @@ req = ( [app, data, jar]..., cb )->
 	
 
 describe "----- connect resid sessions TESTS -----", ->
-	
+	after ( done )->
+		done()
+		process.exit(0)
+		return
+
 	for _servername, app of SERVERS
 		describe "#{_servername.toUpperCase()} Tests - ", ->
 			server = null
