@@ -1,19 +1,14 @@
 os:
-  - linux
-language: node_js
+  - "linux"
+  - "osx"
+language: "node_js"
 node_js:
-  - 0.10
-  - 0.12
-  - 4.0
-  - 4.4
-  - 5.0
-  - 5.11
-  - 6.0
-  - 6.1
-  - iojs
-  - node
+  - "6"
+  - "8"
+  - "10"
+  - "lts/*"
+  - "node"
 services:
-  - redis
+  - "redis-server"
 before_script:
-  - "npm install -g mocha grunt-cli"
-  - "grunt build"
+  - "npm run build"

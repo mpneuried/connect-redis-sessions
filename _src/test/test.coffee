@@ -1,6 +1,7 @@
 should = require('should')
 querystring = require('querystring')
-rand = require('randoms')
+rand = require('randoms/dist/str')
+console.log('rand',rand);
 
 request = require( "request" )
 
@@ -47,14 +48,14 @@ describe "----- connect resid sessions TESTS -----", ->
 			server = null
 			
 			apps =
-				A: rand.string.lower(10)
-				B: rand.string.lower(10)
+				A: rand.lower(10)
+				B: rand.lower(10)
 			
 			uids =
-				A: rand.string.alphaNum(5)
-				B: rand.string.alphaNum(5)
-				C: rand.string.alphaNum(5)
-				D: rand.string.alphaNum(5)
+				A: rand.alphaNum(5)
+				B: rand.alphaNum(5)
+				C: rand.alphaNum(5)
+				D: rand.alphaNum(5)
 				
 			jars = {}
 			for _k, uid of uids
