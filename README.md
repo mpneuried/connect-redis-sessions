@@ -91,6 +91,9 @@ The namespace prefix for all Redis keys used by the redis session module.
 The interval in second after which the timed out redis sessions are wiped. No value less than 10 allowed.
 - **ttl** : *( `Number`, default = `7200` )*
 Redis session timeout to wipe the session on idle time. Must be over `10`. If you set a value `< 10` the module will use `10` instead.
+- **cachetime** : *( `Number`, default = `0` )*
+Number of seconds to cache sessions in memory. See the ["Cache" section in redis-sessions](https://github.com/smrchy/redis-sessions#cache-optional-setting).
+
 
 
 ## Session Object
