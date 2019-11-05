@@ -20,7 +20,7 @@
     "redis-sessions": "2.1.x",
     "buffer-crc32": "0.2.x",
     "pause": "0.1.x",
-    "express-session": "1.15.x"
+    "express-session": "1.17.x"
   },
   "devDependencies": {
     "express": "4.x",
